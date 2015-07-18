@@ -14,7 +14,7 @@ for i in {1..20}; do
 	fi
 done
 
-awk '{print $1}' /usr/local/apache/logs/access_log | sort | uniq -c | sort -n | tail -n 200 > /var/log/ddos/ddosApacheAL.txt
+grep $(date "+%d/%b/%Y") /usr/local/apache/logs/access_log | awk '{print $1}' | sort | uniq -c | sort -nk 1 | tail -n 200 > /var/log/ddos/ddosApacheAL.txt
 grep -Ff /var/log/ddos/IPADR -v /var/log/ddos/ddosApacheAL.txt  > /var/log/ddos/ddosApacheALEx.txt
 for dAal in {1..200}; do
 NOFL=`sed -n "$dAal"p /var/log/ddos/ddosApacheALEx.txt |  awk '{print $1}'`
