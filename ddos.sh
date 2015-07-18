@@ -1,7 +1,10 @@
 #!/bin/bash
 ## Script To Check & Block DDOS ##
 ## Written : 17 DEC 2014 ##
-## By Qasim
+## V2 On 18 July 2015 ##
+## By Qasim ##
+
+[ -d /var/log/ddos ] || mkdir /var/log/ddos
 
 netstat -plan|grep :80|awk {'print $5'}|cut -d: -f 1|sort|uniq -c|sort -nk 1 | tail -n 20 > /var/log/ddos/RTIPADR
 IPADR=`ifconfig | grep "inet addr" |awk '{print $2}' | grep -v 127 | cut -d : -f 2 > /var/log/ddos/IPADR`
@@ -23,4 +26,3 @@ if [[ $NOFL -ge 10000 ]]; then
 	csf -d $BIP
 fi
 done
-
