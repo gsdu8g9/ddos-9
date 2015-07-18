@@ -2,11 +2,11 @@
 ## Script To Check & Block DDOS ##
 ## Written : 17 DEC 2014 ##
 ## V2 On 18 July 2015 ##
-## By Qasim ##
+## By Qasim
 
 [ -d /var/log/ddos ] || mkdir /var/log/ddos
 
-netstat -plan|grep :80|awk {'print $5'}|cut -d: -f 1|sort|uniq -c|sort -nk 1 | tail -n 20 > /var/log/ddos/RTIPADR
+netstat -plan|grep :80|awk {'print $5'}|cut -d: -f 1| grep -E -o "\b[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\b" | sort|uniq -c|sort -nk 1 | tail -n 20 > /var/log/ddos/RTIPADR
 IPADR=`ifconfig | grep "inet addr" |awk '{print $2}' | grep -v 127 | cut -d : -f 2 > /var/log/ddos/IPADR`
 grep -Ff /var/log/ddos/IPADR -v /var/log/ddos/RTIPADR  > /var/log/ddos/Alpha
 for i in {1..20}; do
